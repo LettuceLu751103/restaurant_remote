@@ -19,7 +19,23 @@
 ```
 
 ### 專案安裝流程
+```
+1. 下載專案
+git clone 
 
+2. 切換目錄
+cd ./restaurant_remote
+
+3. 安裝套件
+npm install
+
+4. 啟動服務器
+npm run dev
+
+5. 啟動成功
+出現以下字樣
+The Server is running at: http://localhost:3000
+```
 
 ### 專案開發人員
 Lettuce Lu
