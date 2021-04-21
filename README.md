@@ -25,7 +25,7 @@
 git clone https://github.com/LettuceLu751103/restaurant_remote.git
 ```
 
-```
+
 2. 切換目錄
 ```
 cd ./restaurant_remote
