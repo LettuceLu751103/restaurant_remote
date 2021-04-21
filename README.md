@@ -19,20 +19,30 @@
 ```
 
 ### 專案安裝流程
-```
-1. 下載專案
-git clone 
 
+1. 下載專案
+```
+git clone https://github.com/LettuceLu751103/restaurant_remote.git
+```
+
+```
 2. 切換目錄
+```
 cd ./restaurant_remote
+```
 
 3. 安裝套件
+```
 npm install
+```
 
 4. 啟動服務器
+```
 npm run dev
+```
 
 5. 啟動成功
+```
 出現以下字樣
 The Server is running at: http://localhost:3000
 ```
