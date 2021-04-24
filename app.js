@@ -34,10 +34,10 @@ app.get('/', (req, res) => {
 // 並且使用 params 參數, 動態獲得參數
 app.get('/restaurants/:id', (req, res) => {
 
-  const restaurant_id = req.params.id
+  const req_restaurant_id = req.params.id
   // 比對所有餐廳清餐, 若客戶端請求id號相同, 則返回該資料
-  const restaurantOne = restaurant.results.filter(item => {
-    return Number(restaurant_id) === item.id
+  const restaurantOne = restaurant.results.filter(restaurant_item => {
+    return Number(req_restaurant_id) === restaurant_item.id
   })
 
   res.render('show', { restaurantOne: restaurantOne[0] })
@@ -50,10 +50,10 @@ app.get('/search', (req, res) => {
   // 客戶端搜尋的字串並且轉換成小寫
   const reqData = req.query.keyword.toLowerCase()
   // 比對客戶端傳入的字串, 在原先的餐廳清單內是否有符合的字串
-  const newData = restaurant.results.filter(item => {
-    return item.name.toLowerCase().includes(reqData) || item.name_en.toLowerCase().includes(reqData)
+  const searchData = restaurant.results.filter(restaurant_item => {
+    return restaurant_item.name.toLowerCase().includes(reqData) || restaurant_item.name_en.toLowerCase().includes(reqData)
   })
-  res.render('index', { restaurants: newData, keyword: reqData })
+  res.render('index', { restaurants: searchData, keyword: reqData })
 })
 
 
