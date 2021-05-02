@@ -8,8 +8,26 @@ const exphbs = require('express-handlebars')
 // 引入網頁所需資料文件
 const restaurant = require('./restaurant.json')
 
+// 引入 mongoose db
+const mongoose = require('mongoose')
 
+mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
 
+const db = mongoose.connection
+
+db.on('error', () => {
+  console.log('mongodb connection error!')
+})
+
+db.once('open', () => {
+  console.log('mongodb connection success...')
+})
+
+// 引入 restaurantSchema
+const restaurantSchema = require('./models/restaurantModel')
+
+// 引入 seed.js 文件
+const seed = require('./seed.json')
 
 // 配置靜態文件目錄
 app.use(express.static('public'))
@@ -63,4 +81,29 @@ app.get('/search', (req, res) => {
 // 服務器啟動監聽區域
 app.listen(port, () => {
   console.log(`The Server is running at: http://localhost:${port}`)
+  console.log(seed.results.length)
+
+
+  // 確認是否有初始資料, 如果有初始資料, 不添加, 如果沒有, 添加...
+  console.log(restaurantSchema.find()
+    .lean()
+    .then(data => {
+      if (data.length !== 0) {
+        console.log('已有初始資料...')
+        // console.log(data)
+      } else {
+        for (let i = 0; i < seed.results.length; i++) {
+          restaurantSchema.create(seed.results[i])
+          // console.log('新增一筆資料成功: ', seed.results[i])
+        }
+        console.log(`成功將 seed ${seed.results.length} 資料新增成功`)
+      }
+    })
+    .catch('error', () => {
+      console.log(error)
+    })
+  )
+
+
+
 })
