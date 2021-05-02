@@ -10,7 +10,7 @@ db.on('error', () => {
 })
 
 db.once('open', () => {
-  console.log('mongodb connection succeed...')
+  console.log('restaurantModel mongodb connection succeed...')
 })
 
 const Schema = mongoose.Schema
@@ -30,7 +30,7 @@ const restaurantSchema = new Schema({
   },
   image: {
     type: String,
-    required: true
+
   },
   location: {
     type: String,
@@ -42,7 +42,7 @@ const restaurantSchema = new Schema({
   },
   google_map: {
     type: String,
-    required: true
+
   },
   rating: {
     type: String,

@@ -20,7 +20,7 @@ db.on('error', () => {
 })
 
 db.once('open', () => {
-  console.log('mongodb connection success...')
+  console.log('app mongodb connection success...')
 })
 
 // 引入 restaurantSchema
@@ -28,6 +28,12 @@ const restaurantSchema = require('./models/restaurantModel')
 
 // 引入 seed.js 文件
 const seed = require('./seed.json')
+
+// 引入 body-parser
+const bodyParser = require('body-parser')
+
+// 配置 body-parser
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // 配置靜態文件目錄
 app.use(express.static('public'))
@@ -45,7 +51,29 @@ app.set('view engine', 'handlebars')
 // HTTP Request 請求區域
 // 跟目錄請求區域, 若請求 / 成功, 則進行 index.handlebars 渲染, 並將 { restaurants: restaurant.results } 物件傳入
 app.get('/', (req, res) => {
-  res.render('index', { restaurants: restaurant.results })
+  // res.render('index', { restaurants: restaurant.results })
+  restaurantSchema.find()
+    .lean()
+    .then(data => {
+      res.render('index', { data: data })
+    })
+    .catch('error', () => {
+      console.log(error)
+    })
+})
+
+app.post('/', (req, res) => {
+  console.log(req.body)
+  const data = req.body
+  restaurantSchema.create(data).
+    then(result => {
+      console.log(result)
+      res.redirect('/')
+    })
+    .catch('error', () => {
+      console.log(error)
+    })
+
 })
 
 // /restaurants/:id 請求區域, 若請求成功, 則進行 show.handlebars 渲染, 並將 { restaurantOne: restaurantOne[0] } 物件傳入
@@ -53,12 +81,18 @@ app.get('/', (req, res) => {
 app.get('/restaurants/:id', (req, res) => {
 
   const reqRestaurantId = req.params.id
-  // 比對所有餐廳清餐, 若客戶端請求id號相同, 則返回該資料
-  const restaurantOne = restaurant.results.filter(restaurantItem => {
-    return Number(reqRestaurantId) === restaurantItem.id
-  })
+  // console.log('reqRestaurantId', reqRestaurantId)
+  restaurantSchema.findById(reqRestaurantId)
+    .lean()
+    .then((result) => {
+      console.log(result)
+      res.render('show', { restaurantOne: result })
+    })
+    .catch('error', () => {
+      console.log(error)
+    })
 
-  res.render('show', { restaurantOne: restaurantOne[0] })
+
 })
 
 
@@ -74,14 +108,18 @@ app.get('/search', (req, res) => {
   res.render('index', { restaurants: searchData, keyword: reqData })
 })
 
+// 新增餐廳表單
+app.get('/new', (req, res) => {
 
+  res.render('new')
+})
 
 
 
 // 服務器啟動監聽區域
 app.listen(port, () => {
   console.log(`The Server is running at: http://localhost:${port}`)
-  console.log(seed.results.length)
+
 
 
   // 確認是否有初始資料, 如果有初始資料, 不添加, 如果沒有, 添加...
@@ -89,7 +127,7 @@ app.listen(port, () => {
     .lean()
     .then(data => {
       if (data.length !== 0) {
-        console.log('已有初始資料...')
+        console.log(`已有初始資料 ${data.length} 筆`)
         // console.log(data)
       } else {
         for (let i = 0; i < seed.results.length; i++) {
