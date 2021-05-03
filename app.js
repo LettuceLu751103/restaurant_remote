@@ -133,7 +133,6 @@ app.get('/edit/:id', (req, res) => {
 app.post('/edit/:id', (req, res) => {
   const id = req.params.id
   const updateData = req.body
-  // console.log('updateData', updateData)
   restaurantSchema.findById(id)
     .then(data => {
       data.name = updateData.name
@@ -145,8 +144,6 @@ app.post('/edit/:id', (req, res) => {
       data.google_map = updateData.google_map
       data.rating = updateData.rating
       data.description = updateData.description
-      // console.log('updateData', updateData)
-      // console.log('data', data)
       data.save()
     })
     .then(() => {
@@ -157,6 +154,22 @@ app.post('/edit/:id', (req, res) => {
     })
 })
 
+// 新增 delete page get request method
+app.get('/delete/:id', (req, res) => {
+  const id = req.params.id
+
+  restaurantSchema.findById(id)
+    .then(data => {
+
+      data.remove()
+    })
+    .then(() => {
+      res.redirect('/')
+    })
+    .catch(error => {
+      console.log(error)
+    })
+})
 
 // 服務器啟動監聽區域
 app.listen(port, () => {
