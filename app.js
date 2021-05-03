@@ -178,24 +178,24 @@ app.listen(port, () => {
 
 
   // 確認是否有初始資料, 如果有初始資料, 不添加, 如果沒有, 添加...
-  console.log(restaurantSchema.find()
-    .lean()
-    .then(data => {
-      if (data.length !== 0) {
-        console.log(`已有初始資料 ${data.length} 筆`)
-        // console.log(data)
-      } else {
-        for (let i = 0; i < seed.results.length; i++) {
-          restaurantSchema.create(seed.results[i])
-          // console.log('新增一筆資料成功: ', seed.results[i])
-        }
-        console.log(`成功將 seed ${seed.results.length} 資料新增成功`)
-      }
-    })
-    .catch('error', () => {
-      console.log(error)
-    })
-  )
+  // restaurantSchema.find()
+  //   .lean()
+  //   .then(data => {
+  //     if (data.length !== 0) {
+  //       console.log(`已有初始資料 ${data.length} 筆`)
+  //       // console.log(data)
+  //     } else {
+  //       for (let i = 0; i < seed.results.length; i++) {
+  //         restaurantSchema.create(seed.results[i])
+  //         // console.log('新增一筆資料成功: ', seed.results[i])
+  //       }
+  //       console.log(`成功將 seed ${seed.results.length} 資料新增成功`)
+  //     }
+  //   })
+  //   .catch('error', () => {
+  //     console.log(error)
+  //   })
+
 
 
 
