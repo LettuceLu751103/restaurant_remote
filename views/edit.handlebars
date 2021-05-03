@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="row">
+    <h1 class=' col-12 mt-3 mb-3 text-center'>餐廳資料修改</h1>
+  </div>
+
+  <form action="/edit/{{restaurantOneData._id}}" method="POST">
+    <div class="mb-3 row">
+      <label for="chName" class="col-sm-2 col-form-label">餐廳中文名稱</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="chName" placeholder="ex: 鼎泰豐" name="name" required {{#if
+          restaurantOneData}} value="{{restaurantOneData.name}}" {{/if}}>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="engName" class="col-sm-2 col-form-label">餐廳英文名稱</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="engName" placeholder="ex: Din Tai Fung" name="name_en" required
+          {{#if restaurantOneData}} value="{{restaurantOneData.name_en}}" {{/if}}>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="category" class="col-sm-2 col-form-label">餐廳分類</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="category" placeholder="ex: 港式餐飲" name="category" required {{#if
+          restaurantOneData}} value="{{restaurantOneData.category}}" {{/if}}>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="imageShow" class="col-sm-2 col-form-label">封面圖片地址</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="imageShow" name="image" {{#if
+          restaurantOneData}}value="{{restaurantOneData.image}}" {{/if}}>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="address" class="col-sm-2 col-form-label">餐廳地址</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="address" name="location" required {{#if
+          restaurantOneData}}value="{{restaurantOneData.location}}" {{/if}}>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="phone" class="col-sm-2 col-form-label">餐廳電話</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="phone" name="phone" required {{#if
+          restaurantOneData}}value="{{restaurantOneData.phone}}" {{/if}}>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="map" class="col-sm-2 col-form-label">Google Map</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="map" name="google_map" {{#if
+          restaurantOneData}}value="{{restaurantOneData.google_map}}" {{/if}}>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="rating" class="col-sm-2 col-form-label">評分等級</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="rating" name="rating" required {{#if
+          restaurantOneData}}value="{{restaurantOneData.rating}}" {{/if}}>
+        <small class="text-muted form-text">( 等級為 0.0 ~ 5.0 )</small>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="description" class="col-sm-2 col-form-label">餐廳描述</label>
+      <div class="col-sm-10">
+        <textarea id="description" cols="30" rows="5" class="form-control" name="description" required>{{#if
+        restaurantOneData}} {{restaurantOneData.description}} {{/if}}</textarea>
+      </div>
+    </div>
+
+
+    <div class="col-12 text-center mt-3">
+      <button type="submit" class="btn btn-primary mr-3">確認送出</button>
+      <a href="/" class="btn btn-danger">上一頁</a>
+    </div>
+  </form>
+
+
+</div>

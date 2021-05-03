@@ -114,6 +114,48 @@ app.get('/new', (req, res) => {
   res.render('new')
 })
 
+// 新增編輯 edit 頁面 get 請求
+app.get('/edit/:id', (req, res) => {
+  const id = req.params.id
+
+  restaurantSchema.findById(id)
+    .lean()
+    .then(data => {
+      console.log(data)
+      res.render('edit', { restaurantOneData: data })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+})
+
+// 新增編輯 edit 頁面 post 請求
+app.post('/edit/:id', (req, res) => {
+  const id = req.params.id
+  const updateData = req.body
+  // console.log('updateData', updateData)
+  restaurantSchema.findById(id)
+    .then(data => {
+      data.name = updateData.name
+      data.name_en = updateData.name_en
+      data.category = updateData.category
+      data.image = updateData.image
+      data.location = updateData.location
+      data.phone = updateData.phone
+      data.google_map = updateData.google_map
+      data.rating = updateData.rating
+      data.description = updateData.description
+      // console.log('updateData', updateData)
+      // console.log('data', data)
+      data.save()
+    })
+    .then(() => {
+      res.redirect('/')
+    })
+    .catch(error => {
+      console.log(error)
+    })
+})
 
 
 // 服務器啟動監聽區域
