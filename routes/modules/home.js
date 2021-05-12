@@ -30,4 +30,29 @@ router.post('/', (req, res) => {
 
 })
 
+// 搜尋輸入框區域, 若請求 /search 成功, 則進行 index.handlebars 渲染, 並將 { restaurants: newData, keyword: reqData } 物件傳入
+router.get('/search', (req, res) => {
+
+  // 客戶端搜尋的字串並且轉換成小寫
+  const reqData = req.query.keyword.toLowerCase()
+  // 比對客戶端傳入的字串, 在資料庫內的餐廳清單內是否有符合的字串
+  let searchData = []
+  restaurantSchema.find()
+    .lean()
+    .then(dbData => {
+      searchData = dbData.filter(restaurantItem => {
+        return restaurantItem.name.toLowerCase().includes(reqData) || restaurantItem.name_en.toLowerCase().includes(reqData)
+      })
+    })
+    .then(() => {
+
+      res.render('index', { data: searchData, keyword: reqData })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+
+})
+
 module.exports = router

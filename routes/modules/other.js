@@ -31,17 +31,7 @@ router.get('/:id', (req, res) => {
 })
 
 
-// 搜尋輸入框區域, 若請求 /search 成功, 則進行 index.handlebars 渲染, 並將 { restaurants: newData, keyword: reqData } 物件傳入
-router.get('/search', (req, res) => {
 
-  // 客戶端搜尋的字串並且轉換成小寫
-  const reqData = req.query.keyword.toLowerCase()
-  // 比對客戶端傳入的字串, 在原先的餐廳清單內是否有符合的字串
-  const searchData = restaurant.results.filter(restaurantItem => {
-    return restaurantItem.name.toLowerCase().includes(reqData) || restaurantItem.name_en.toLowerCase().includes(reqData)
-  })
-  res.render('index', { restaurants: searchData, keyword: reqData })
-})
 
 
 
