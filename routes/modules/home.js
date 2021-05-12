@@ -55,4 +55,43 @@ router.get('/search', (req, res) => {
 
 })
 
+
+router.get('/sortData/:requestFormat', (req, res) => {
+  const reqOptions = req.params.requestFormat
+  switch (reqOptions) {
+    case '1':
+      console.log('升序排列')
+      sorting({ name: 'asc' })
+      break
+    case '2':
+      console.log('降序排列')
+      sorting({ name: 'desc' })
+      break
+    case '3':
+      console.log('category 排序')
+      sorting('category')
+      break
+    case '4':
+      console.log('location 排序')
+      sorting('location')
+      break
+    default:
+      console.log('一般查詢')
+      sorting('')
+      break
+  }
+  function sorting(sortObj) {
+    restaurantSchema.find()
+      .sort(sortObj)
+      .lean()
+      .then(data => {
+        res.send(data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+})
+
 module.exports = router

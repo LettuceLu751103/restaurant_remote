@@ -15,7 +15,7 @@
     </div>
     <div class="col-md-8" style="display: flex; align-items:center; justify-content:flex-end;">
       <div class="text-right">
-        <select class="form-select form-select-lg">
+        <select class="form-select form-select-lg" id="selector">
           <option selected>Sort</option>
           <option value="1">A-Z</option>
           <option value="2">Z-A</option>
@@ -28,7 +28,7 @@
 
   </div>
 
-  <div class="row">
+  <div class="row" id="rawData">
 
     {{#each data }}
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 mx-auto">
@@ -65,5 +65,60 @@
 
     </div>
     {{/each}}
+
+
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const selector = document.querySelector('#selector')
+  const rawData = document.querySelector('#rawData')
+  //console.log(selector)
+  selector.addEventListener('change', showValue);
+
+  function showValue(e) {
+    let target = e.target.value
+    axios.get(`http://127.0.0.1:3000/sortData/${target}`)
+      .then(res => {
+        rawData.innerHTML = ''
+        res.data.forEach(oneData => {
+          rawData.innerHTML += `
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 mx-auto">
+
+      <div class="card mb-1">
+        <img class="card-img-top" src="${oneData.image}">
+        <div class="card-body p-3">
+          <h6 class="card-title mb-1">${oneData.name}</h6>
+
+          <div class="restaurant-category mb-1">
+            <i class="fas fa-utensils pr-2"></i> ${oneData.category}
+          </div>
+
+          <span class="badge badge-pill badge-danger font-weight-normal">
+            ${oneData.rating}
+            <i class="fas fa-star fa-xs"></i>
+          </span>
+
+        </div>
+      </div>
+
+      <div class="row mb-3  justify-content-end mt-2">
+        <div class="col-md-3"><a href='/restaurants/edit/${oneData._id}' class="btn">Edit</a></div>
+        <div class="col-md-3"><a href='/restaurants/${oneData._id}' class="btn">Deatil</a></div>
+
+        <div class="col-md-3 mr-3">
+          <form action="/restaurants/delete/${oneData._id}?_method=DELETE" method="POST" style="display: inline;">
+            <button class="btn btn-light">DELETE</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+          `
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+</script>
