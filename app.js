@@ -8,23 +8,9 @@ const exphbs = require('express-handlebars')
 // 引入網頁所需資料文件
 const restaurant = require('./restaurant.json')
 
-// 引入 mongoose db
-const mongoose = require('mongoose')
+// 引入 mongoose 設定文件
+require('./config/mongoose')
 
-mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
-
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('mongodb connection error!')
-})
-
-db.once('open', () => {
-  console.log('app mongodb connection success...')
-})
-
-// 引入 restaurantSchema
-const restaurantSchema = require('./models/restaurantModel')
 
 // 引入 seed.js 文件
 const seed = require('./seed.json')
@@ -47,129 +33,16 @@ app.set('view engine', 'handlebars')
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
+// 引入路由文件
+const routes = require('./routes')
+app.use(routes)
+
 
 // HTTP Request 請求區域
 // 跟目錄請求區域, 若請求 / 成功, 則進行 index.handlebars 渲染, 並將 { restaurants: restaurant.results } 物件傳入
-app.get('/', (req, res) => {
-  // res.render('index', { restaurants: restaurant.results })
-  restaurantSchema.find()
-    .lean()
-    .then(data => {
-      res.render('index', { data: data })
-    })
-    .catch('error', () => {
-      console.log(error)
-    })
-})
-
-app.post('/', (req, res) => {
-  console.log(req.body)
-  const data = req.body
-  restaurantSchema.create(data).
-    then(result => {
-      console.log(result)
-      res.redirect('/')
-    })
-    .catch('error', () => {
-      console.log(error)
-    })
-
-})
-
-// /restaurants/:id 請求區域, 若請求成功, 則進行 show.handlebars 渲染, 並將 { restaurantOne: restaurantOne[0] } 物件傳入
-// 並且使用 params 參數, 動態獲得參數
-app.get('/restaurants/:id', (req, res) => {
-
-  const reqRestaurantId = req.params.id
-  // console.log('reqRestaurantId', reqRestaurantId)
-  restaurantSchema.findById(reqRestaurantId)
-    .lean()
-    .then((result) => {
-      console.log(result)
-      res.render('show', { restaurantOne: result })
-    })
-    .catch('error', () => {
-      console.log(error)
-    })
 
 
-})
 
-
-// 搜尋輸入框區域, 若請求 /search 成功, 則進行 index.handlebars 渲染, 並將 { restaurants: newData, keyword: reqData } 物件傳入
-app.get('/search', (req, res) => {
-
-  // 客戶端搜尋的字串並且轉換成小寫
-  const reqData = req.query.keyword.toLowerCase()
-  // 比對客戶端傳入的字串, 在原先的餐廳清單內是否有符合的字串
-  const searchData = restaurant.results.filter(restaurantItem => {
-    return restaurantItem.name.toLowerCase().includes(reqData) || restaurantItem.name_en.toLowerCase().includes(reqData)
-  })
-  res.render('index', { restaurants: searchData, keyword: reqData })
-})
-
-// 新增餐廳表單
-app.get('/new', (req, res) => {
-
-  res.render('new')
-})
-
-// 新增編輯 edit 頁面 get 請求
-app.get('/edit/:id', (req, res) => {
-  const id = req.params.id
-
-  restaurantSchema.findById(id)
-    .lean()
-    .then(data => {
-      console.log(data)
-      res.render('edit', { restaurantOneData: data })
-    })
-    .catch(error => {
-      console.log(error)
-    })
-})
-
-// 新增編輯 edit 頁面 post 請求
-app.put('/edit/:id', (req, res) => {
-  const id = req.params.id
-  const updateData = req.body
-  restaurantSchema.findById(id)
-    .then(data => {
-      data.name = updateData.name
-      data.name_en = updateData.name_en
-      data.category = updateData.category
-      data.image = updateData.image
-      data.location = updateData.location
-      data.phone = updateData.phone
-      data.google_map = updateData.google_map
-      data.rating = updateData.rating
-      data.description = updateData.description
-      data.save()
-    })
-    .then(() => {
-      res.redirect('/')
-    })
-    .catch(error => {
-      console.log(error)
-    })
-})
-
-// 新增 delete page get request method
-app.delete('/delete/:id', (req, res) => {
-  const id = req.params.id
-
-  restaurantSchema.findById(id)
-    .then(data => {
-
-      data.remove()
-    })
-    .then(() => {
-      res.redirect('/')
-    })
-    .catch(error => {
-      console.log(error)
-    })
-})
 
 // 服務器啟動監聽區域
 app.listen(port, () => {

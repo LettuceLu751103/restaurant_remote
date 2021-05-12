@@ -72,11 +72,11 @@
       </div>
 
       <div class="row mb-3  justify-content-end mt-2">
-        <div class="col-md-3"><a href='/edit/{{this._id}}' class="btn">Edit</a></div>
+        <div class="col-md-3"><a href='/restaurants/edit/{{this._id}}' class="btn">Edit</a></div>
         <div class="col-md-3"><a href='/restaurants/{{this._id}}' class="btn">Deatil</a></div>
 
         <div class="col-md-3 mr-3">
-          <form action="/delete/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
+          <form action="/restaurants/delete/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
             <button class="btn btn-light">DELETE</button>
           </form>
         </div>
