@@ -43,9 +43,9 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 
-
-
-
+// 配置 method-override
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
 
 
 // HTTP Request 請求區域
@@ -130,7 +130,7 @@ app.get('/edit/:id', (req, res) => {
 })
 
 // 新增編輯 edit 頁面 post 請求
-app.post('/edit/:id', (req, res) => {
+app.put('/edit/:id', (req, res) => {
   const id = req.params.id
   const updateData = req.body
   restaurantSchema.findById(id)
@@ -155,7 +155,7 @@ app.post('/edit/:id', (req, res) => {
 })
 
 // 新增 delete page get request method
-app.get('/delete/:id', (req, res) => {
+app.delete('/delete/:id', (req, res) => {
   const id = req.params.id
 
   restaurantSchema.findById(id)
@@ -174,29 +174,4 @@ app.get('/delete/:id', (req, res) => {
 // 服務器啟動監聽區域
 app.listen(port, () => {
   console.log(`The Server is running at: http://localhost:${port}`)
-
-
-
-  // 確認是否有初始資料, 如果有初始資料, 不添加, 如果沒有, 添加...
-  // restaurantSchema.find()
-  //   .lean()
-  //   .then(data => {
-  //     if (data.length !== 0) {
-  //       console.log(`已有初始資料 ${data.length} 筆`)
-  //       // console.log(data)
-  //     } else {
-  //       for (let i = 0; i < seed.results.length; i++) {
-  //         restaurantSchema.create(seed.results[i])
-  //         // console.log('新增一筆資料成功: ', seed.results[i])
-  //       }
-  //       console.log(`成功將 seed ${seed.results.length} 資料新增成功`)
-  //     }
-  //   })
-  //   .catch('error', () => {
-  //     console.log(error)
-  //   })
-
-
-
-
 })

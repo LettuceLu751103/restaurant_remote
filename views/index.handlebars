@@ -1,5 +1,5 @@
 <!-- search bar -->
-<div class="container search-bar">
+{{!-- <div class="container search-bar">
   <div class="search-bar-outer">
     <div class="search-bar-inner">
       <form action="/search">
@@ -14,18 +14,43 @@
       </form>
     </div>
   </div>
-</div>
+</div> --}}
 
 
-<div class="container mt-5">
-  <div class="row ">
-    {{!-- 底下元素靠右, row 添加 justify-content-end --}}
-    <a href='/new' class="btn btn-primary mb-2 text-light ml-3">Add Restaurant</a>
+<div class="container mt-3">
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <form action="/search">
+        <div class="input-group">
+
+          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
+            value="{{ keyword }}" aria-describedby="search-button">
+          <div class="input-group-append">
+            <button class="btn btn-warning" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="col-md-8" style="display: flex; align-items:center; justify-content:flex-end;">
+      <div class="text-right">
+        <select class="form-select form-select-lg">
+          <option selected>Sort</option>
+          <option value="1">A-Z</option>
+          <option value="2">Z-A</option>
+          <option value="3">類別</option>
+          <option value="4">地區</option>
+        </select>
+      </div>
+
+    </div>
+
   </div>
+
   <div class="row">
 
     {{#each data }}
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mx-auto">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 mx-auto">
 
       <div class="card mb-1">
         <img class="card-img-top" {{#if this.image}}src="{{this.image}}"
@@ -46,10 +71,15 @@
         </div>
       </div>
 
-      <div class="row mb-3  justify-content-end ">
-        <div class="col-md-3"><a href='/edit/{{this._id}}'>Edit</a></div>
-        <div class="col-md-3"><a href='/restaurants/{{this._id}}'>Deatil</a></div>
-        <div class="col-md-3 mr-2"><a href="/delete/{{this._id}}">Delete</a></div>
+      <div class="row mb-3  justify-content-end mt-2">
+        <div class="col-md-3"><a href='/edit/{{this._id}}' class="btn">Edit</a></div>
+        <div class="col-md-3"><a href='/restaurants/{{this._id}}' class="btn">Deatil</a></div>
+
+        <div class="col-md-3 mr-3">
+          <form action="/delete/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
+            <button class="btn btn-light">DELETE</button>
+          </form>
+        </div>
       </div>
 
     </div>
