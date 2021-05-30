@@ -14,10 +14,10 @@ router.get('/new', (req, res) => {
 // /restaurants/:id 請求區域, 若請求成功, 則進行 show.handlebars 渲染, 並將 { restaurantOne: restaurantOne[0] } 物件傳入
 // 並且使用 params 參數, 動態獲得參數
 router.get('/:id', (req, res) => {
-
-  const reqRestaurantId = req.params.id
+  const userId = req.user._id
+  const _id = req.params.id
   // console.log('reqRestaurantId', reqRestaurantId)
-  restaurantSchema.findById(reqRestaurantId)
+  restaurantSchema.findOne({ _id, userId })
     .lean()
     .then((result) => {
       console.log(result)
@@ -37,9 +37,9 @@ router.get('/:id', (req, res) => {
 
 // 新增編輯 edit 頁面 get 請求
 router.get('/edit/:id', (req, res) => {
-  const id = req.params.id
-
-  restaurantSchema.findById(id)
+  const _id = req.params.id
+  const userId = req.user._id
+  restaurantSchema.findOne({ _id, userId })
     .lean()
     .then(data => {
       console.log(data)
@@ -52,9 +52,10 @@ router.get('/edit/:id', (req, res) => {
 
 // 新增編輯 edit 頁面 post 請求
 router.put('/edit/:id', (req, res) => {
-  const id = req.params.id
+  const _id = req.params.id
+  const userId = req.user._id
   const updateData = req.body
-  restaurantSchema.findById(id)
+  restaurantSchema.findOne({ _id, userId })
     .then(data => {
       data.name = updateData.name
       data.name_en = updateData.name_en
@@ -77,9 +78,9 @@ router.put('/edit/:id', (req, res) => {
 
 // 新增 delete page get request method
 router.delete('/delete/:id', (req, res) => {
-  const id = req.params.id
-
-  restaurantSchema.findById(id)
+  const _id = req.params.id
+  const userId = req.user._id
+  restaurantSchema.findOne({ _id, userId })
     .then(data => {
 
       data.remove()

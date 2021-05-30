@@ -6,7 +6,8 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
   // res.render('index', { restaurants: restaurant.results })
-  restaurantSchema.find()
+  const userId = req.user._id
+  restaurantSchema.find({ userId })
     .lean()
     .then(data => {
       res.render('index', { data: data })
@@ -17,9 +18,10 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  console.log(req.body)
-  const data = req.body
-  restaurantSchema.create(data).
+
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+  const userId = req.user._id
+  restaurantSchema.create({ name, name_en, category, image, location, phone, google_map, rating, description, userId }).
     then(result => {
       console.log(result)
       res.redirect('/')
