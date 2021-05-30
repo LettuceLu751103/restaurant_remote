@@ -14,10 +14,12 @@ module.exports = app => {
   passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
     User.findOne({ email })
       .then(user => {
+        console.log('user:' + user)
         if (!user) {
           return done(null, false, { message: 'That email is not registered!' })
         }
         return bcrypt.compare(password, user.password).then(isMatch => {
+          console.log('isMatch: ' + isMatch)
           if (!isMatch) {
             return done(null, false, { message: 'Email or Password incorrect.' })
           }
