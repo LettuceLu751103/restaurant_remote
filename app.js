@@ -2,7 +2,7 @@
 const express = require('express')
 const app = express()
 // 服務器監聽端口
-const port = 3000
+const PORT = process.env.PORT || 3000
 // 引入網頁模板 handlebars
 const exphbs = require('express-handlebars')
 // 引入網頁所需資料文件
@@ -32,9 +32,12 @@ app.set('view engine', 'handlebars')
 // 配置 method-override
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
-const flash = require('connect-flash')   // 引用套件
-
 const session = require('express-session')
+const flash = require('connect-flash')   // 引用套件
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 
 app.use(session({
   secret: 'ThisIsMySecret',
@@ -69,6 +72,6 @@ app.use(routes)
 
 
 // 服務器啟動監聽區域
-app.listen(port, () => {
-  console.log(`The Server is running at: http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`The Server is running at: http://localhost:${PORT}`)
 })
