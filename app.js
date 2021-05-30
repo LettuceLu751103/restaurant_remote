@@ -33,6 +33,14 @@ app.set('view engine', 'handlebars')
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
+const session = require('express-session')
+
+app.use(session({
+  secret: 'ThisIsMySecret',
+  resave: false,
+  saveUninitialized: true
+}))
+
 // 引入路由文件
 const routes = require('./routes')
 app.use(routes)
