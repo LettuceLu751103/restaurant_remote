@@ -26,9 +26,8 @@ const userArray = [
 db.once('open', async () => {
   for (let i = 0; i < userArray.length; i++) {
     console.log(userArray[i].email)
-    let email = userArray[i].email
-    let password = userArray[i].password
-    let name = userArray[i].name
+
+    let { email, password, name } = userArray[i]
     User.findOne({ email })
       .lean()
       .then(async user => {

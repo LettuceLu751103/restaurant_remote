@@ -19,9 +19,8 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
 
-  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
-  const userId = req.user._id
-  restaurantSchema.create({ name, name_en, category, image, location, phone, google_map, rating, description, userId }).
+
+  restaurantSchema.create({ ...req.body, userId: req.user._id }).
     then(result => {
       console.log(result)
       res.redirect('/')
@@ -60,33 +59,37 @@ router.get('/search', (req, res) => {
 
 router.get('/sortData/:requestFormat', (req, res) => {
   const reqOptions = req.params.requestFormat
+  const userId = req.user._id
+  console.log(userId)
   switch (reqOptions) {
     case '1':
       console.log('升序排列')
-      sorting({ name: 'asc' })
+      sorting({ userId: userId, name: 'asc' })
       break
     case '2':
       console.log('降序排列')
-      sorting({ name: 'desc' })
+      sorting({ userId: userId, name: { name: 'desc' } })
       break
     case '3':
       console.log('category 排序')
-      sorting('category')
+      sorting({ userId: userId, name: { category: 'asc' } })
       break
     case '4':
-      console.log('location 排序')
-      sorting('location')
+      console.log({ userId: userId, name: 'location' })
+      sorting({ userId: userId, name: { location: 'asc' } })
       break
     default:
       console.log('一般查詢')
-      sorting('')
+      sorting({ userId: userId, name: '' })
       break
   }
   function sorting(sortObj) {
-    restaurantSchema.find()
-      .sort(sortObj)
+    console.log(sortObj.name)
+    restaurantSchema.find({ userId: sortObj.userId })
+      .sort(sortObj.name)
       .lean()
       .then(data => {
+        console.log(data)
         res.send(data)
       })
       .catch(error => {

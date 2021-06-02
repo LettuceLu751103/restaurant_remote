@@ -82,6 +82,7 @@
 
   function showValue(e) {
     let target = e.target.value
+    console.log(target)
     axios.get(`http://127.0.0.1:3000/sortData/${target}`)
       .then(res => {
         rawData.innerHTML = ''
