@@ -60,9 +60,9 @@
         <div class="col-md-3"><a href='/restaurants/edit/{{this._id}}' class="btn">Edit</a></div>
         <div class="col-md-3"><a href='/restaurants/{{this._id}}' class="btn">Deatil</a></div>
 
-        <div class="col-md-3 mr-3">
+        <div class="col-md-3 mr-3 btnArea">
           <form action="/restaurants/delete/{{this._id}}?_method=DELETE" method="POST" style="display: inline;">
-            <button class="btn btn-light">DELETE</button>
+            <button class="btn btn-light deleteBTN">DELETE</button>
           </form>
         </div>
       </div>
@@ -80,6 +80,16 @@
   //console.log(selector)
   selector.addEventListener('change', showValue);
 
+  rawData.addEventListener('click', (event) => {
+    console.log(event.target)
+    if (event.target.matches('.deleteBTN')) {
+      const decision = confirm("確定要刪除嗎?")
+      if (!decision) {
+        event.preventDefault()
+      }
+    }
+
+  })
   function showValue(e) {
     let target = e.target.value
     console.log(target)

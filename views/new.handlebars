@@ -28,35 +28,36 @@
     <div class="mb-3 row">
       <label for="imageShow" class="col-sm-2 col-form-label">封面圖片地址</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="imageShow" name="image">
+        <input type="url" class="form-control" id="imageShow" name="image" placeholder="https://xxx.xxx.com/xxx.jpg">
       </div>
     </div>
 
     <div class="mb-3 row">
       <label for="address" class="col-sm-2 col-form-label">餐廳地址</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="address" name="location" required>
+        <input type="text" class="form-control" id="address" name="location" required placeholder="新北市五股區四維路90號">
       </div>
     </div>
 
     <div class="mb-3 row">
       <label for="phone" class="col-sm-2 col-form-label">餐廳電話</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control" id="phone" name="phone" required>
+        <input type="number" class="form-control" id="phone" name="phone" required placeholder="0222304370">
       </div>
     </div>
 
     <div class="mb-3 row">
       <label for="map" class="col-sm-2 col-form-label">Google Map</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="map" name="google_map">
+        <input type="url" class="form-control" id="map" name="google_map" required
+          placeholder="https://xxx.xxx.com/xxx">
       </div>
     </div>
 
     <div class="mb-3 row">
       <label for="rating" class="col-sm-2 col-form-label">評分等級</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control" id="rating" name="rating" required min="0" max="5">
+        <input type="number" class="form-control" id="rating" name="rating" required min="0" max="5" placeholder="4.3">
         <small class="text-muted form-text">( 等級為 0.0 ~ 5.0 )</small>
       </div>
     </div>
@@ -64,7 +65,10 @@
     <div class="mb-3 row">
       <label for="description" class="col-sm-2 col-form-label">餐廳描述</label>
       <div class="col-sm-10">
-        <textarea id="description" cols="30" rows="5" class="form-control" name="description" required></textarea>
+        <textarea id="description" cols="30" rows="5" class="form-control" name="description" required
+          placeholder="赫爾希鎮歷史最悠久的自助式餐廳。 這裡已有超過 83 年的歷史，更是當地人的最愛。 餐廳裡最有名的是我們 DeAngelis 義大利麵醬汁，還有我們知名的顛倒 (Upside Down) 披薩。 餐廳裡供應美味的手工義大利料理，有海鮮、牛排和義大利麵。 完整的酒吧菜單和三明治品項。 全天及深夜皆供應菜單所有品項。 週末供應完整酒單並有娛樂節目。 赫爾希鎮劇院明星、卡司派對和名人的聚會場地首選。 位於巧克力大道，就在赫爾希故事館 (Hershey Story Museum) 的正對面，交通位置便利。"
+          maxlength="160"></textarea>
+        <small class="text-muted form-text">( 字數限制160個 )</small>
       </div>
     </div>
 

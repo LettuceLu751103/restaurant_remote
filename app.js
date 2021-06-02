@@ -12,8 +12,8 @@ const restaurant = require('./restaurant.json')
 require('./config/mongoose')
 
 
-// 引入 seed.js 文件
-const seed = require('./seed.json')
+// // 引入 seed.js 文件
+// const seed = require('./seed.json')
 
 // 引入 body-parser
 const bodyParser = require('body-parser')

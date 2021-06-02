@@ -3,7 +3,7 @@
 
 const db = require('../../config/mongoose')
 
-const initData = require('../../seed.json')
+const initData = require('./seed.json')
 const restaurantSchema = require('../restaurantModel')
 const User = require('../user')
 const passport = require('passport')
